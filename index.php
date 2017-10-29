@@ -12,15 +12,9 @@ $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $password);
 /**
  * Составляем запрос
  */
-$sql = "SELECT * FROM books WHERE " .
-    implode(
-        ' AND ',
-        array(
-            getSQLRequest('name'),
-            getSQLRequest('author'),
-            getSQLRequest('isbn')
-        )
-    );
+$sql = "SELECT * FROM books WHERE name LIKE ? AND author LIKE ? AND isbn LIKE ?";
+$statement = $pdo->prepare($sql);
+$statement->execute([getSQLRequest('name'), getSQLRequest('author'), getSQLRequest('isbn')]);
 
 /**
  * Возвращает содержимое $_GET[$request] или пустую строку
@@ -38,13 +32,13 @@ function getValueFromGET($request)
 
 /**
  * Возвращает строку для фильтра WHERE в SQL запросе
- * например, если $request == 'name' и $_GET['name'] == 123, то возвращает: name LIKE '%123%'
+ * например, если $_GET[$request] == 123, то возвращает: %123%
  * @param $request
  * @return string
  */
 function getSQLRequest($request)
 {
-    return $request . ' LIKE \'%' . getValueFromGET($request) . '%\'';
+    return '%' . getValueFromGET($request) . '%';
 }
 
 ?>
@@ -75,7 +69,7 @@ function getSQLRequest($request)
         <th>ISBN</th>
       </tr>
 
-      <?php foreach ($pdo->query($sql) as $row) : ?>
+      <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)) : ?>
       <tr>
         <td><?= $row['name'] ?></td>
         <td><?= $row['author'] ?></td>
@@ -83,8 +77,8 @@ function getSQLRequest($request)
         <td><?= $row['genre'] ?></td>
         <td><?= $row['isbn'] ?></td>
       </tr>
-      <?php endforeach; ?>
+      <?php endwhile; ?>
 
-      <table>
+    <table>
   </body>
 </html>
