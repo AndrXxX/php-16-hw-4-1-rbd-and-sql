@@ -75,15 +75,15 @@ function getSQLRequest($request)
         <th>ISBN</th>
       </tr>
 
-        <?php foreach ($pdo->query($sql) as $row) : ?>
-          <tr>
-            <td><?= $row['name'] ?></td>
-            <td><?= $row['author'] ?></td>
-            <td><?= $row['year'] ?></td>
-            <td><?= $row['genre'] ?></td>
-            <td><?= $row['isbn'] ?></td>
-          </tr>
-        <?php endforeach; ?>
+      <?php foreach ($pdo->query($sql) as $row) : ?>
+      <tr>
+        <td><?= $row['name'] ?></td>
+        <td><?= $row['author'] ?></td>
+        <td><?= $row['year'] ?></td>
+        <td><?= $row['genre'] ?></td>
+        <td><?= $row['isbn'] ?></td>
+      </tr>
+      <?php endforeach; ?>
 
       <table>
   </body>
