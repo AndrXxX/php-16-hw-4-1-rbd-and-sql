@@ -4,8 +4,8 @@ $homeWorkCaption = 'Реляционные базы данных и SQL.';
 
 $host = 'localhost';
 $db = 'global';
-$user = 'garetov';
-$password = 'neto1262';
+$user = '123';
+$password = '123';
 
 $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $password);
 
